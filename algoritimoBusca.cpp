@@ -160,7 +160,7 @@ int main()
         //     carro[0].x--;
         // }
 
-        // if(lab[carro[0].x][carro[0].y-1] != " " && lab[carro[0].x][carro[0].y-1] != "*" && podeEsquerda == true) //Carro vai para esquerda
+        // if(lab[carro[0].x][carro[0].y-1] != " " && lab[carro[0].x][carro[0'].y-1] != "*" && podeEsquerda == true) //Carro vai para esquerda
         // {
         //     carro[0].y--;
         //     if(foiDireita == true) //Se o carro for para a esquerda logo ap�s ir para a direita, ele subtrai 1 do contadorD
