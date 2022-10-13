@@ -29,11 +29,15 @@ short SenE = 0;
 short SenEE = 0;
 
 // Declarando as funções
-void AndarFrente();      // Carro segue a linha
-void AjeitarEsquerda();  // Ajeita o carro na linha reta
-void AjeitarDireita();   // Ajeita o carro na linha reta
-void CurvaEsquerda();    // Curva 90º
-void CurvaDireita();     // Curva 90º
+void LerSensores();               // Faz a leitura dos sensores IR
+void ImprimirValoresSensores();   // Imprime os valores dos sensores
+void AndarFrente();               // Carro segue a linha
+void AjeitarEsquerda();           // Ajeita o carro na linha reta
+void AjeitarDireita();            // Ajeita o carro na linha reta
+void CurvaEsquerda();             // Curva 90º para a esquerda
+void CurvaDireita();              // Curva 90º para a direita
+void DarPassoAFrente();           // Dar um passo a frente
+void Parar();                     // Para o robô
 
 void setup() {
   Serial.begin(9600);  // Iniciando o monitor serial (9600 baud)
@@ -46,19 +50,8 @@ void setup() {
 }
 
 void loop() {
-  Sensores();
-
-  Serial.print("ED: ");
-  Serial.println(SenED);
-  Serial.print("D: ");
-  Serial.println(SenD);
-  Serial.print("M: ");
-  Serial.println(SenM);
-  Serial.print("E: ");
-  Serial.println(SenE);
-  Serial.print("EE: ");
-  Serial.println(SenEE);
-  Serial.print("\n");
+  LerSensores();
+  ImprimirValoresSensores();
 
   // Sensor IR < brancoIR -> Sensor está no branco
   // LDR < brancoLDR -> Sensor está no branco
@@ -78,10 +71,22 @@ void loop() {
   }
 }
 
-
-
 // Funções
-void Sensores() {
+void ImprimirValoresSensores() {
+  Serial.print("ED: ");
+  Serial.println(SenED);
+  Serial.print("D: ");
+  Serial.println(SenD);
+  Serial.print("M: ");
+  Serial.println(SenM);
+  Serial.print("E: ");
+  Serial.println(SenE);
+  Serial.print("EE: ");
+  Serial.println(SenEE);
+  Serial.print("\n");
+}
+
+void LerSensores() {
   SenED = analogRead(IRExtremoDireita);   // Valores do sensor IR da extremidade direita
   SenD = analogRead(IRDireita);           // Valores do sensor IR da direita (próximo do meio)
   SenM = analogRead(LDR);                 // Valores do sensor LDR (sensor do meio)
@@ -111,8 +116,7 @@ void AjeitarDireita() {
 }
 
 void CurvaEsquerda() {
-  AndarFrente();
-  delay(100);
+  DarPassoAFrente();
   analogWrite(MDireita1, v1);
   analogWrite(MDireita2, 0);
   analogWrite(MEsquerda1, 0);
@@ -120,13 +124,16 @@ void CurvaEsquerda() {
 }
 
 void CurvaDireita() {
-  AndarFrente();
-  delay(100);
+  DarPassoAFrente();
   analogWrite(MDireita1, 0);
   analogWrite(MDireita2, 0);
   analogWrite(MEsquerda1, v2);
   analogWrite(MEsquerda2, 0);
-  delay(1000);
+}
+
+void DarPassoAFrente() {
+  AndarFrente();
+  delay(100);
 }
 
 void Parar() {
